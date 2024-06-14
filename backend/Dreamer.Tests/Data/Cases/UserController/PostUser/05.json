@@ -1,0 +1,15 @@
+{
+  "UserCreateObj": {
+    "FirstName": "Albert",
+    "LastName": "Einstein",
+    "Email": "albert.einstein@example.invalid",
+    "Password": "password"
+  },
+  "ExpectedResult": {
+    "RequestResultStatus": "UserError",
+    "Errors": {
+      "Email": [ "Email already exists" ]
+    },
+    "Item": null
+  }
+}

@@ -1,0 +1,39 @@
+@rootUrl = http://localhost:8080
+@requestPath = /api/v1/user
+
+GET {{rootUrl}}{{requestPath}}/
+
+### Expected 400 Bad Request if the database was restored
+POST {{rootUrl}}{{requestPath}}
+Content-Type: application/json
+
+{
+    "FirstName": "Isaac",
+    "LastName": "Newton",
+    "Email": "isaac.newton@example.invalid",
+    "Password": "password"
+}
+
+
+### Expected 400 Bad Request if the database was restored
+POST {{rootUrl}}{{requestPath}}
+Content-Type: application/json
+
+{
+    "FirstName": "Albert",
+    "LastName": "Einstein",
+    "Email": "albert.einstein@example.invalid",
+    "Password": "password"
+}
+
+
+### Expected 201 Created if the database was reset
+POST {{rootUrl}}{{requestPath}}
+Content-Type: application/json
+
+{
+    "FirstName": "Marie",
+    "LastName": "Curie",
+    "Email": "marie.curie@example.invalid",
+    "Password": "password"
+}

@@ -1,0 +1,20 @@
+{
+  "UserCreateObj": {
+    "FirstName": "Marie ",
+    "LastName": "Curie                         ",
+    "Email": "marie.curie@example.invalid             ",
+    "Password": "password"
+  },
+  "ExpectedResult": {
+    "RequestResultStatus": "Created",
+    "Errors": {},
+    "Item": {
+      "Id": "a6757b2f-d847-4db4-a51a-ca3db89653ce",
+      "FirstName": "Marie",
+      "LastName": "Curie",
+      "Email": "marie.curie@example.invalid",
+      "DateCreated": "2009-06-15 13:45:30Z",
+      "DateModified": "2009-06-15 13:45:30Z"
+    }
+  }
+}

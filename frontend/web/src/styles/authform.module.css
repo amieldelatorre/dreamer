@@ -1,0 +1,55 @@
+.pageBackground {
+  background: linear-gradient(0.25turn, #020103, #210E24, #390741);;
+  height: 100dvh;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  min-width: 350px;
+  min-height: 500px;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.input, .submit {
+  height: 40px;
+  border-radius: 8px;
+  font-size: 20px;
+  box-shadow: 0px 0 12px 1px #666;
+}
+
+.input {
+  padding-left: 10px;
+  border: none;
+  border-width: 3px;
+}
+
+.input::placeholder {
+  font-size: 20px;
+}
+
+.submit {
+  border: none;
+  background-color: #A300DC;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.submit:disabled {
+  background-color: #817373;
+}
+
+.submitDiv {
+  text-align: center;
+}
+
+.minHeight40 {
+  min-height: 40px;
+}

@@ -1,0 +1,18 @@
+{
+  "UserCreateObj": {
+    "FirstName": "",
+    "LastName": "",
+    "Email": "",
+    "Password": ""
+  },
+  "ExpectedResult": {
+    "RequestResultStatus": "UserError",
+    "Errors": {
+      "FirstName": [ "Cannot be null or empty" ],
+      "LastName": [ "Cannot be null or empty" ],
+      "Email": [ "Cannot be null or empty", "Email format invalid" ],
+      "Password": [ "Must be a string with a minimum length of 8" ]
+    },
+    "Item": null
+  }
+}

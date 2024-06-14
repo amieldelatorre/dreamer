@@ -1,0 +1,84 @@
+name: Build and Test
+
+on:
+  push:
+    branches:
+      - '**' # Run on all branches
+    tags-ignore:
+      - '**' # Ignore when tags
+  workflow_call: # Allow other workflows to call this workflow
+
+jobs:
+  build_and_test_backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      matrix:
+        dotnet-version: ['8.0.x' ]
+    env:
+      working-directory: ./backend
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Setup .Net, install dependencies, build and test
+      - name: Setup .NET SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+      
+      - name: Install dependencies
+        run: dotnet restore
+        working-directory: ${{ env.working-directory }}
+      
+      - name: Build backend
+        run: dotnet build --configuration Release --no-restore
+        working-directory: ${{ env.working-directory }}
+
+      - name: Test backend
+        run: dotnet test --no-restore --verbosity normal
+        working-directory: ${{ env.working-directory }}
+
+      # Test building of docker image
+      - name: Set up Docker QEMU Emulation
+        uses: docker/setup-qemu-action@v3
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Docker Build Api
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          file: ./backend/Dreamer.Api/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: false
+
+  build_and_test_frontend_web:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      working-directory: ./frontend
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # TODO: Add the selenium tests for web frontend
+      
+      # Test building of docker image
+      - name: Set up Docker QEMU Emulation
+        uses: docker/setup-qemu-action@v3
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Docker Build Web Frontend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend/web
+          file: ./frontend/web/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: false
+

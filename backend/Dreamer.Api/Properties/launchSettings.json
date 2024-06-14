@@ -1,0 +1,61 @@
+{
+  "profiles": {
+    "http": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:5135"
+    },
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DREAMER_POSTGRES_HOST": "localhost",
+        "DREAMER_POSTGRES_PORT": "5432",
+        "DREAMER_POSTGRES_USERNAME": "root",
+        "DREAMER_POSTGRES_PASSWORD": "root",
+        "DREAMER_POSTGRES_DATABASE": "dreamer",
+        "DREAMER_REDIS_CONNECTION_STRING": "localhost:6379",
+        "UNLEASH_API_URL": "http://localhost:4242/api/",
+        "UNLEASH_APP_NAME": "dreamer",
+        "UNLEASH_API_KEY": "*:production.dc7968908207aee9c8bbb6866956060be73c7de60bdfc6e5f69b983c",
+        "LOG_LEVEL": "Debug"
+      }
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
+      "environmentVariables": {
+        "ASPNETCORE_HTTP_PORTS": "8080",
+        "DREAMER_DATABASE_MIGRATE": "true",
+        "DREAMER_POSTGRES_HOST": "dreamer_postgres",
+        "DREAMER_POSTGRES_PORT": "5432",
+        "DREAMER_POSTGRES_USERNAME": "root",
+        "DREAMER_POSTGRES_PASSWORD": "root",
+        "DREAMER_POSTGRES_DATABASE": "dreamer",
+        "DREAMER_REDIS_CONNECTION_STRING": "dreamer_redis:6379",
+        "UNLEASH_API_URL": "http://unleash_web:4242/api",
+        "UNLEASH_API_KEY": "*:production.dc7968908207aee9c8bbb6866956060be73c7de60bdfc6e5f69b983c",
+        "UNLEASH_APP_NAME": "dreamer",
+        "LOG_LEVEL": "Debug"
+      },
+      "publishAllPorts": true,
+      "DockerfileRunArguments": "--network dreamer -p 8080:8080"
+    }
+  },
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:57377",
+      "sslPort": 0
+    }
+  }
+}
