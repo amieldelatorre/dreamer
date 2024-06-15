@@ -64,8 +64,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      # TODO: Add the selenium tests for web frontend
       
       # Test building of docker image
       - name: Set up Docker QEMU Emulation
@@ -74,6 +72,12 @@ jobs:
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Run Selenium tests
+        run: |
+          chmod +x ./scripts/run_selenium_tests.sh
+          chmod +x ./scripts/restore_dumps.sh
+          ./scripts/run_selenium_tests.sh
+      
       - name: Docker Build Web Frontend
         uses: docker/build-push-action@v5
         with:
