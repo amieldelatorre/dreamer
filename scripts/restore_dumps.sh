@@ -15,7 +15,7 @@ stat "${CONTAINER_DATA_DIR}/unleash_postgres" && mv "${CONTAINER_DATA_DIR}/unlea
 stat "${CONTAINER_DATA_DIR}/dreamer_postgres" && mv "${CONTAINER_DATA_DIR}/dreamer_postgres" "${CONTAINER_DATA_DIR}/${DATE_FOR_FILES}-dreamer_postgres"
 
 docker compose --profile all up unleash_postgres dreamer_postgres -d
-sleep 15 # Give it enough time to start up
+sleep 20 # Give it enough time to start up
 
 gunzip -c "${SCRIPT_ROOT}/data/unleash_postgres_dump.gz" | docker exec -i unleash_postgres psql -U root -d unleash
 sleep 2
