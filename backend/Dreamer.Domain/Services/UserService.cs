@@ -40,17 +40,8 @@ namespace Dreamer.Domain.Services
 
         public async Task<bool> EmailExists(string email)
         {
-            try
-            {
-                var user = await userCache.GetUserByEmail(email);
-                return user != null;
-            }
-            catch (Exception ex)
-            {
-                ServerErrors<UserView>.LogException(logger, FeatureName.UserGetByEmail, ex);
-                return false;
-            }
-
+            var user = await userCache.GetUserByEmail(email);
+            return user != null;
         }
 
         private static User NewUserFromUserCreate(UserCreate userCreateObj)

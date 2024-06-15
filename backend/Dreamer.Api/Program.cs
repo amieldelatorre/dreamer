@@ -1,3 +1,4 @@
+using Dreamer.Api.Middlewares;
 using Dreamer.Api.Utils;
 using Dreamer.Cache;
 using Dreamer.DataAccess;
@@ -11,6 +12,7 @@ using Newtonsoft.Json.Serialization;
 using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Json;
+using ILogger = Serilog.ILogger;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -106,7 +108,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 app.UseCors(allowDevOrigin);
+
+app.ConfigureExceptionMiddleware();
 
 app.UseSerilogRequestLogging();
 

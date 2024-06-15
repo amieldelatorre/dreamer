@@ -23,19 +23,13 @@ namespace Dreamer.Api.Controllers
         // A ServiceFilter needs to be instantiated in Program.cs for the DI container,
         //      so we lose flexibility with passing the feature name
         [TypeFilter(typeof(FeatureToggleFilter), Arguments = [ FeatureName.UserCreate])]
-        [TypeFilter<ExceptionHandlerFilter>]
         public async Task<ActionResult<Result<UserView>>> PostUser(UserCreate userCreateObj)
         {
             var validationResult = await userCreateValidator.ValidateAsync(userCreateObj);
             if (!validationResult.IsValid)
             {
-                var errors = validationResult.ToDictionary();
-                var errorResult = new Result<UserView>
-                {
-                    Errors = HandleRequestResult<UserView>.ResultErrorDict(errors),
-                    RequestResultStatus = RequestResultStatusTypes.UserError
-                };
-                return BadRequest(errorResult);
+                var validationErrorResult = HandleRequestResult<UserView>.GetValidationErrorResult(validationResult);
+                return BadRequest(validationErrorResult);
             }
 
             var result = await userService.Create(userCreateObj);
