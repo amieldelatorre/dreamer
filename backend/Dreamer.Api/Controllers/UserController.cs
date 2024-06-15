@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Dreamer.Api.Filters;
 using Dreamer.Domain.DTOs;
+using Dreamer.Domain.Validators;
 using Dreamer.Shared.Constants;
+using FluentValidation;
 
 namespace Dreamer.Api.Controllers
 {
@@ -10,7 +12,10 @@ namespace Dreamer.Api.Controllers
     [Produces("application/json")]
     [Consumes("application/json")]
     [ApiController]
-    public class UserController(IUserService userService, Serilog.ILogger logger) : ControllerBase
+    public class UserController(
+        IUserService userService,
+        IValidator<UserCreate> userCreateValidator,
+        Serilog.ILogger logger) : ControllerBase
     {
         [HttpPost]
         // Using a TypeFilter instead of a ServiceFilter because we need to
@@ -20,21 +25,18 @@ namespace Dreamer.Api.Controllers
         [TypeFilter(typeof(FeatureToggleFilter), Arguments = [ FeatureName.UserCreate])]
         public async Task<ActionResult<Result<UserView>>> PostUser(UserCreate userCreateObj)
         {
-            try
+            var validationResult = await userCreateValidator.ValidateAsync(userCreateObj);
+            if (!validationResult.IsValid)
             {
-                var result = await userService.Create(userCreateObj);
-                logger.Debug("{feature}: returning status of {resultStatus}",
-                    FeatureName.UserCreate,
-                    result.RequestResultStatus);
-                return HandleRequestResult<UserView>.GetRequestResultAsHttpResponse(result, logger);
+                var validationErrorResult = HandleRequestResult<UserView>.GetValidationErrorResult(validationResult);
+                return BadRequest(validationErrorResult);
+            }
 
-            }
-            catch (Exception ex)
-            {
-                logger.Error("{feature}: returning unexpected error, will return {internalServerErrorInstead}. Exception: {error}",
-                    FeatureName.UserCreate, StatusCodes.Status500InternalServerError, ex.Message);
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
-            }
+            var result = await userService.Create(userCreateObj);
+            logger.Debug("{feature}: returning status of {resultStatus}",
+                FeatureName.UserCreate,
+                result.RequestResultStatus);
+            return HandleRequestResult<UserView>.GetRequestResultAsHttpResponse(result, logger);
         }
 
         [HttpGet("{userId:Guid}")]

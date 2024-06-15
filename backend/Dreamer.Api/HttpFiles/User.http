@@ -37,3 +37,14 @@ Content-Type: application/json
     "Email": "marie.curie@example.invalid",
     "Password": "password"
 }
+
+### Expected 400 Bad Request
+POST {{rootUrl}}{{requestPath}}
+Content-Type: application/json
+
+{
+  "FirstName": "",
+  "LastName": "",
+  "Email": "marie.curieexample.invalid",
+  "Password": "passwor"
+}

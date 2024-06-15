@@ -14,7 +14,7 @@ namespace Dreamer.Domain.DTOs
         public RequestResultStatusTypes RequestResultStatus { get; set; }
 
         public bool ShouldSerializeErrors() => Errors.Count > 0;
-        public readonly Dictionary<string, List<string>> Errors = new();
+        public Dictionary<string, List<string>> Errors = new();
         public void AddError(string key, string message)
         {
             if (Errors.ContainsKey(key))

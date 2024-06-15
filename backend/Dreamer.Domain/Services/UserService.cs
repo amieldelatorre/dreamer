@@ -10,7 +10,6 @@ namespace Dreamer.Domain.Services
 {
     public class UserService(
         IUserCache userCache,
-        ISqlErrorUnpacker sqlErrorUnpacker,
         ILogger logger)
         : IUserService
     {
@@ -18,37 +17,17 @@ namespace Dreamer.Domain.Services
         public async Task<Result<UserView>> Create(UserCreate userCreateObj)
         {
             logger.Debug("{featureName} starting", FeatureName.UserCreate);
-            var result = UserCreateValidator.Check(userCreateObj);
-            if (result.Errors.Count > 0)
+            var result = new Result<UserView>();
+            var newUser = NewUserFromUserCreate(userCreateObj);
+
+            if (!(await IsEmailUnique(newUser.Email)))
             {
+                result.AddError(nameof(userCreateObj.Email), "Email already exists");
                 result.RequestResultStatus = RequestResultStatusTypes.UserError;
                 return result;
             }
 
-            var newUser = NewUserFromUserCreate(userCreateObj);
-
-            try
-            {
-                await userCache.Create(newUser);
-            }
-            catch (Microsoft.EntityFrameworkCore.DbUpdateException ex)
-            {
-                var sqlConstraintViolation = sqlErrorUnpacker.GetSqlErrorType(ex);
-                if (sqlConstraintViolation == DataAccess.Constants.SqlConstrainViolations.UserEmailUnique)
-                {
-                    result.RequestResultStatus = RequestResultStatusTypes.UserError;
-                    result.AddError(nameof(userCreateObj.Email), "Email already exists");
-                    return result;
-                }
-
-                logger.Error("{featureName}: unhandled {exception}", FeatureName.UserCreate, ex.Message);
-                return ServerErrors<UserView>.GetInternalServerErrorResult(result);
-            }
-            catch (Exception ex)
-            {
-                ServerErrors<UserView>.LogException(logger, FeatureName.UserGetByEmail, ex);
-                return ServerErrors<UserView>.GetInternalServerErrorResult(result);
-            }
+            await userCache.Create(newUser);
 
             logger.Debug("{featureName}: processed with new Id '{userId}'.",
                 FeatureName.UserCreate,
@@ -58,19 +37,10 @@ namespace Dreamer.Domain.Services
             return result;
         }
 
-        public async Task<bool> EmailExists(string email)
+        public async Task<bool> IsEmailUnique(string email)
         {
-            try
-            {
-                var user = await userCache.GetUserByEmail(email);
-                return user != null;
-            }
-            catch (Exception ex)
-            {
-                ServerErrors<UserView>.LogException(logger, FeatureName.UserGetByEmail, ex);
-                return false;
-            }
-
+            var user = await userCache.GetUserByEmail(email);
+            return user == null;
         }
 
         private static User NewUserFromUserCreate(UserCreate userCreateObj)

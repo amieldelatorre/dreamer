@@ -1,5 +1,6 @@
 using Dreamer.Shared.Constants;
 using Dreamer.Domain.DTOs;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using ILogger = Serilog.ILogger;
 
@@ -37,5 +38,30 @@ public static class HandleRequestResult<T>
                     StatusCode = StatusCodes.Status500InternalServerError
                 };
         }
+    }
+
+    public static Result<T> GetValidationErrorResult(ValidationResult validationResult)
+    {
+        var errors = validationResult.ToDictionary();
+
+        var result = new Result<T>()
+        {
+            Errors = HandleRequestResult<UserView>.ResultErrorDict(errors),
+            RequestResultStatus = RequestResultStatusTypes.UserError
+        };
+
+        return result;
+    }
+
+    public static Dictionary<string, List<string>> ResultErrorDict(IEnumerable<KeyValuePair<string, string[]>> errs)
+    {
+        var errorResultDict = new Dictionary<string, List<string>>();
+
+        foreach (var item in errs)
+        {
+            errorResultDict[item.Key] = item.Value.ToList();
+        }
+
+        return errorResultDict;
     }
 }
