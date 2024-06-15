@@ -6,6 +6,6 @@ namespace Dreamer.Domain.Services
     public interface IUserService
     {
         Task<Result<UserView>> Create(UserCreate userCreateObj);
-        Task<bool> EmailExists(string email);
+        Task<bool> IsEmailUnique(string email);
     }
 }

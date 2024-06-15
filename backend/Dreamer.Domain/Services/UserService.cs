@@ -20,8 +20,7 @@ namespace Dreamer.Domain.Services
             var result = new Result<UserView>();
             var newUser = NewUserFromUserCreate(userCreateObj);
 
-            var existingUserWithEmail = await userCache.GetUserByEmail(newUser.Email);
-            if (existingUserWithEmail != null)
+            if (!(await IsEmailUnique(newUser.Email)))
             {
                 result.AddError(nameof(userCreateObj.Email), "Email already exists");
                 result.RequestResultStatus = RequestResultStatusTypes.UserError;
@@ -38,10 +37,10 @@ namespace Dreamer.Domain.Services
             return result;
         }
 
-        public async Task<bool> EmailExists(string email)
+        public async Task<bool> IsEmailUnique(string email)
         {
             var user = await userCache.GetUserByEmail(email);
-            return user != null;
+            return user == null;
         }
 
         private static User NewUserFromUserCreate(UserCreate userCreateObj)
