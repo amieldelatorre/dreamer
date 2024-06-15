@@ -23,7 +23,7 @@ services:
           "--username=${UNLEASH_POSTGRES_USER:-root}",
           "--host=127.0.0.1",
           "--port=5432",
-          "-d ${UNLEASH_POSTGRES_DATABASE:-unleash}"
+          "-d${UNLEASH_POSTGRES_DATABASE:-unleash}"
         ]
       interval: 2s
       timeout: 1m
@@ -89,7 +89,7 @@ services:
           "--username=${DREAMER_POSTGRES_USERNAME:-root}",
           "--host=127.0.0.1",
           "--port=5432",
-          "-database ${DREAMER_POSTGRES_DATABASE:-dreamer}"
+          "-d${DREAMER_POSTGRES_DATABASE:-dreamer}"
         ]
       interval: 2s
       timeout: 1m
