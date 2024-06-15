@@ -15,6 +15,8 @@ PROJECT_ROOT="${SCRIPT_ROOT}/.."
 cd "${PROJECT_ROOT}"
 pwd
 
+docker network create dreamer
+
 bash "${SCRIPT_ROOT}/restore_dumps.sh"
 docker compose --profile all up -d
 sleep 5
