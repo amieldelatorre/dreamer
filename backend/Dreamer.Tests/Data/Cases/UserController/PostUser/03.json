@@ -8,10 +8,13 @@
   "ExpectedResult": {
     "RequestResultStatus": "UserError",
     "Errors": {
-      "FirstName": [ "Cannot be null or empty" ],
-      "LastName": [ "Cannot be null or empty" ],
-      "Email": [ "Cannot be null or empty", "Email format invalid" ],
-      "Password": [ "Must be a string with a minimum length of 8" ]
+      "FirstName": [ "'First Name' must not be empty." ],
+      "LastName": [ "'Last Name' must not be empty." ],
+      "Email": [ "'Email' must not be empty.", "'Email' is not a valid email address." ],
+      "Password": [
+        "'Password' must not be empty.",
+        "The length of 'Password' must be at least 8 characters. You entered 0 characters."
+      ]
     },
     "Item": null
   }

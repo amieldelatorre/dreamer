@@ -4,6 +4,7 @@ using Dreamer.DataAccess;
 using Dreamer.DataAccess.Repository;
 using Dreamer.Domain.DTOs;
 using Dreamer.Domain.Services;
+using Dreamer.Domain.Validators;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -18,7 +19,6 @@ namespace Tests.ControllerTests
         private readonly TestDreamerPostgresContainer _postgresContainer;
         private readonly TestDreamerRedisContainer _redisContainer;
         private readonly ILogger _logger;
-        private readonly ISqlErrorUnpacker _errorUnpacker;
         private IUserRepository _userRepository;
         private IDatabaseCacheRepository _databaseCacheRepository;
         private IUserCache _userCache;
@@ -30,7 +30,6 @@ namespace Tests.ControllerTests
             _logger = SerilogLogger.GetLogger();
             _postgresContainer = new TestDreamerPostgresContainer();
             _redisContainer = new TestDreamerRedisContainer();
-            _errorUnpacker = new PostgresErrorUnpacker();
         }
 
         [OneTimeSetUp]
@@ -49,8 +48,10 @@ namespace Tests.ControllerTests
             _userRepository = new PgsqlUserRepository(dbContext);
             _userCache = new UserCache(_userRepository, _databaseCacheRepository, _logger);
 
-            _userService = new UserService(_userCache, _errorUnpacker, _logger);
-            _userController = new UserController(_userService, _logger);
+            _userService = new UserService(_userCache, _logger);
+            var userCreateValidator = new UserCreateValidator();
+
+            _userController = new UserController(_userService, userCreateValidator, _logger);
         }
 
         [OneTimeTearDown]

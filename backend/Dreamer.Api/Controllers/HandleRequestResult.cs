@@ -38,4 +38,16 @@ public static class HandleRequestResult<T>
                 };
         }
     }
+
+    public static Dictionary<string, List<string>> ResultErrorDict(IEnumerable<KeyValuePair<string, string[]>> errs)
+    {
+        var errorResultDict = new Dictionary<string, List<string>>();
+
+        foreach (var item in errs)
+        {
+            errorResultDict[item.Key] = item.Value.ToList();
+        }
+
+        return errorResultDict;
+    }
 }

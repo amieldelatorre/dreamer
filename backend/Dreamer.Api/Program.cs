@@ -2,7 +2,10 @@ using Dreamer.Api.Utils;
 using Dreamer.Cache;
 using Dreamer.DataAccess;
 using Dreamer.DataAccess.Repository;
+using Dreamer.Domain.DTOs;
 using Dreamer.Domain.Services;
+using Dreamer.Domain.Validators;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
 using Serilog;
@@ -57,7 +60,6 @@ builder.Services.AddDbContext<DreamerDbContext>(
     options => options.UseNpgsql(connectionString)
 );
 builder.Services.AddScoped<IUserRepository, PgsqlUserRepository>();
-builder.Services.AddScoped<ISqlErrorUnpacker, PostgresErrorUnpacker>();
 
 
 // Register database cache repository
@@ -77,6 +79,9 @@ builder.Services.AddScoped<IFeatureToggleRepository, UnleashFeatureToggleReposit
 // Register services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IFeatureToggleService, FeatureToggleService>();
+
+// Register validators
+builder.Services.AddScoped<IValidator<UserCreate>, UserCreateValidator>();
 
 // Configure CORS
 // TODO: Properly set cors allowed origins
