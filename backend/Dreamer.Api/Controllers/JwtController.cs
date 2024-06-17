@@ -1,4 +1,7 @@
-﻿using Dreamer.Domain.DTOs;
+﻿using Dreamer.Api.Filters;
+using Dreamer.Domain.DTOs;
+using Dreamer.Domain.Services;
+using Dreamer.Shared.Constants;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,9 +13,11 @@ namespace Dreamer.Api.Controllers;
 [ApiController]
 public class JwtController(
     IValidator<UserLoginCredentialsDto> userLoginCredentialsValidator,
+    IJwtService jwtService,
     Serilog.ILogger logger
     ) : Controller
 {
+    [TypeFilter(typeof(FeatureToggleFilter), Arguments = [FeatureName.JwtCreate])]
     public async Task<IActionResult> PostJwt(UserLoginCredentialsDto loginCredentials)
     {
         var validationResult = await userLoginCredentialsValidator.ValidateAsync(loginCredentials);

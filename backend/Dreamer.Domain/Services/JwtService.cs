@@ -1,4 +1,6 @@
-﻿namespace Dreamer.Domain.Services;
+﻿using Dreamer.Domain.DTOs;
+
+namespace Dreamer.Domain.Services;
 
 public class JwtService : IJwtService
 {
@@ -6,5 +8,10 @@ public class JwtService : IJwtService
     {
         throw new NotImplementedException();
         return true;
+    }
+
+    public Task<Result<JwtCreateView>> Create(UserLoginCredentialsDto loginCredentials)
+    {
+        throw new NotImplementedException();
     }
 }

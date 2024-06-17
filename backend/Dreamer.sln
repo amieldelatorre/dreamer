@@ -9,11 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dreamer.Domain", "Dreamer.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dreamer.DataAccess", "Dreamer.DataAccess\Dreamer.DataAccess.csproj", "{A2D5103A-6FBE-4473-945D-C5552EE53750}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dreamer.Tests", "Dreamer.Tests\Dreamer.Tests.csproj", "{C7CA4EC8-EF34-4178-90A4-176DD797FD69}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dreamer.Tests", "Dreamer.Tests\Dreamer.Tests.csproj", "{C7CA4EC8-EF34-4178-90A4-176DD797FD69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dreamer.Cache", "Dreamer.Cache\Dreamer.Cache.csproj", "{E15734A2-CA1C-4CAA-8B49-B380BFCE5C06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dreamer.Cache", "Dreamer.Cache\Dreamer.Cache.csproj", "{E15734A2-CA1C-4CAA-8B49-B380BFCE5C06}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dreamer.Shared", "Dreamer.Shared\Dreamer.Shared.csproj", "{6A6ADFEC-2372-4D44-889B-CDA2FEDF0E5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dreamer.Shared", "Dreamer.Shared\Dreamer.Shared.csproj", "{6A6ADFEC-2372-4D44-889B-CDA2FEDF0E5F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

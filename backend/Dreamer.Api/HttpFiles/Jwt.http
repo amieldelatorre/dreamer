@@ -1,0 +1,14 @@
+@rootUrl = http://localhost:8080
+@requestPath = /api/v1/auth/jwt
+
+GET {{rootUrl}}{{requestPath}}/
+
+
+### Expected 400 Bad Request
+POST {{rootUrl}}{{requestPath}}
+Content-Type: application/json
+
+{
+    "Email": "isaac.newton@example.invalid",
+    "Password": ""
+}
