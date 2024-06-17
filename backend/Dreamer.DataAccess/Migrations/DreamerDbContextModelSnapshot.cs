@@ -31,10 +31,13 @@ namespace Dreamer.DataAccess.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<DateTime?>("DateDisabled")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<DateTime>("DateModified")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("ExpiryData")
+                    b.Property<DateTime>("ExpiryDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsDisabled")

@@ -12,7 +12,6 @@ using Newtonsoft.Json.Serialization;
 using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Json;
-using ILogger = Serilog.ILogger;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -81,9 +80,11 @@ builder.Services.AddScoped<IFeatureToggleRepository, UnleashFeatureToggleReposit
 // Register services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IFeatureToggleService, FeatureToggleService>();
+builder.Services.AddScoped<IJwtService, JwtService>();
 
 // Register validators
 builder.Services.AddScoped<IValidator<UserCreate>, UserCreateValidator>();
+builder.Services.AddScoped<IValidator<UserLoginCredentialsDto>, UserLoginCredentialsDtoValidator>();
 
 // Configure CORS
 // TODO: Properly set cors allowed origins

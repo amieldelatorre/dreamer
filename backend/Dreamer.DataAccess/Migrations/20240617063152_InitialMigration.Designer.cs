@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Dreamer.DataAccess.Migrations
 {
     [DbContext(typeof(DreamerDbContext))]
-    [Migration("20240617060620_AddJwtTable")]
-    partial class AddJwtTable
+    [Migration("20240617063152_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,11 +34,17 @@ namespace Dreamer.DataAccess.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<DateTime?>("DateDisabled")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<DateTime>("DateModified")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("ExpiryData")
+                    b.Property<DateTime>("ExpiryDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDisabled")
+                        .HasColumnType("boolean");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
