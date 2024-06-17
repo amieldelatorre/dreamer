@@ -51,7 +51,7 @@ namespace Dreamer.Domain.Services
                 FirstName = userCreateObj.FirstName.Trim(),
                 LastName = userCreateObj.LastName.Trim(),
                 Email = userCreateObj.Email.Trim(),
-                Password = BCrypt.Net.BCrypt.HashPassword(userCreateObj.Password),
+                Password = BCrypt.Net.BCrypt.EnhancedHashPassword(userCreateObj.Password),
                 DateCreated = DateTime.Now.ToUniversalTime(),
                 DateModified = DateTime.Now.ToUniversalTime(),
             };

@@ -76,8 +76,8 @@ ALTER TABLE public."__EFMigrationsHistory" OWNER TO root;
 -- Data for Name: Users; Type: TABLE DATA; Schema: public; Owner: root
 --
 
-INSERT INTO public."Users" VALUES ('8fb15cbf-5d6d-4de2-a640-7c5d4310131d', 'Isaac', 'Newton', 'isaac.newton@example.invalid', '$2a$11$XugBDskCU37eD99lFgLP6uooptKXdqMJPrxGUXcO2y64/DrHURiMW', '2024-06-17 18:43:24.167594+12', '2024-06-17 18:43:24.167976+12');
-INSERT INTO public."Users" VALUES ('04156bbf-4e61-412c-9d72-c8d92699c5a7', 'Albert', 'Einstein', 'albert.einstein@example.invalid', '$2a$11$.4VR8Qi1yNZ/6jOMkTIDneV3vq1d0AiHTefMKVIyRYnP8aixH9l02', '2024-06-17 18:43:28.069013+12', '2024-06-17 18:43:28.069018+12');
+INSERT INTO public."Users" VALUES ('68d1e183-330c-4349-869a-64679341b21e', 'Isaac', 'Newton', 'isaac.newton@example.invalid', '$2a$11$HG0gfVXyolIyKaHrSh39mObJlz.BP6.e/6kprDJ60icNAxKFQjgw.', '2024-06-17 18:54:35.985008+12', '2024-06-17 18:54:35.985139+12');
+INSERT INTO public."Users" VALUES ('0684514e-54e7-4613-9b74-332890c7dca9', 'Albert', 'Einstein', 'albert.einstein@example.invalid', '$2a$11$2TA8.qbXSS8fsTfN/gR58es4wtof37BH/JWDPE5/Jcv3sgyUkHHdS', '2024-06-17 18:54:38.46539+12', '2024-06-17 18:54:38.465395+12');
 
 
 --

@@ -17,6 +17,7 @@ public class JwtController(
     Serilog.ILogger logger
     ) : Controller
 {
+    [HttpPost]
     [TypeFilter(typeof(FeatureToggleFilter), Arguments = [FeatureName.JwtCreate])]
     public async Task<IActionResult> PostJwt(UserLoginCredentialsDto loginCredentials)
     {
@@ -26,6 +27,12 @@ public class JwtController(
             var validationErrorResult = HandleRequestResult<JwtCreateView>.GetValidationErrorResult(validationResult);
             return BadRequest(validationErrorResult);
         }
-        return Ok();
+
+        var result = await jwtService.Create(loginCredentials);
+        logger.Debug("{feature}: returning status of {resultStatus}",
+                FeatureName.JwtCreate,
+                result.RequestResultStatus);
+
+        return HandleRequestResult<JwtCreateView>.GetRequestResultAsHttpResponse(result, logger);
     }
 }

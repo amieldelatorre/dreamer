@@ -2101,7 +2101,7 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 -- Data for Name: api_tokens; Type: TABLE DATA; Schema: public; Owner: root
 --
 
-INSERT INTO public.api_tokens VALUES ('*:production.dc7968908207aee9c8bbb6866956060be73c7de60bdfc6e5f69b983c', 'prod-test', 'client', '2024-06-06 17:58:10.87946+12', NULL, '2024-06-17 18:42:08.765+12', 'production', NULL, 'prod-test', NULL);
+INSERT INTO public.api_tokens VALUES ('*:production.dc7968908207aee9c8bbb6866956060be73c7de60bdfc6e5f69b983c', 'prod-test', 'client', '2024-06-06 17:58:10.87946+12', NULL, '2024-06-17 18:54:25.771+12', 'production', NULL, 'prod-test', NULL);
 
 
 --
@@ -2156,7 +2156,7 @@ INSERT INTO public.api_tokens VALUES ('*:production.dc7968908207aee9c8bbb6866956
 -- Data for Name: client_applications; Type: TABLE DATA; Schema: public; Owner: root
 --
 
-INSERT INTO public.client_applications VALUES ('dreamer', '2024-06-06 17:58:52.36091+12', '2024-06-17 18:43:13.83+12', '2024-06-17 18:43:13.83+12', '["default","userWithId","gradualRolloutUserId","gradualRolloutRandom","applicationHostname","gradualRolloutSessionId","remoteAddress","flexibleRollout"]', NULL, NULL, NULL, NULL, true, '::ffff:172.24.0.2');
+INSERT INTO public.client_applications VALUES ('dreamer', '2024-06-06 17:58:52.36091+12', '2024-06-17 18:54:24.671+12', '2024-06-17 18:54:24.671+12', '["default","userWithId","gradualRolloutUserId","gradualRolloutRandom","applicationHostname","gradualRolloutSessionId","remoteAddress","flexibleRollout"]', NULL, NULL, NULL, NULL, true, '::ffff:172.24.0.2');
 
 
 --
@@ -2183,6 +2183,9 @@ INSERT INTO public.client_instances VALUES ('dreamer', 'DESKTOP-K2RQV8G-generate
 INSERT INTO public.client_instances VALUES ('dreamer', '2918a0e55c90-generated-3f061f81-86ef-4bd1-8d39-08fcb2fc6c40', '::ffff:172.24.0.2', '2024-06-17 18:32:28.839715+12', '2024-06-17 18:32:28.839715+12', 'unleash-client-dotnet:v4.1.9', 'production');
 INSERT INTO public.client_instances VALUES ('dreamer', '2918a0e55c90-generated-3f7c9dda-c48f-4bd0-83ca-7738c0811bfa', '::ffff:172.24.0.2', '2024-06-17 18:42:06.454+12', '2024-06-17 18:38:08.841111+12', 'unleash-client-dotnet:v4.1.9', 'production');
 INSERT INTO public.client_instances VALUES ('dreamer', '2918a0e55c90-generated-d15e4f4a-4847-4a99-81a5-d4c81d56c6c0', '::ffff:172.24.0.2', '2024-06-17 18:43:13.839363+12', '2024-06-17 18:43:13.839363+12', 'unleash-client-dotnet:v4.1.9', 'production');
+INSERT INTO public.client_instances VALUES ('dreamer', '2918a0e55c90-generated-13279a8a-8c12-4092-91ae-80d0c90af7b0', '::ffff:172.24.0.2', '2024-06-17 18:51:13.829915+12', '2024-06-17 18:51:13.829915+12', 'unleash-client-dotnet:v4.1.9', 'production');
+INSERT INTO public.client_instances VALUES ('dreamer', '2918a0e55c90-generated-1253655c-66be-44d3-b02a-0c2faf6e5cab', '::ffff:172.24.0.2', '2024-06-17 18:52:18.827249+12', '2024-06-17 18:52:18.827249+12', 'unleash-client-dotnet:v4.1.9', 'production');
+INSERT INTO public.client_instances VALUES ('dreamer', '2918a0e55c90-generated-df461df9-49d9-4daa-8570-3bf3feaaf9d1', '::ffff:172.24.0.2', '2024-06-17 18:54:24.679489+12', '2024-06-17 18:54:24.679489+12', 'unleash-client-dotnet:v4.1.9', 'production');
 
 
 --
@@ -2763,14 +2766,14 @@ INSERT INTO public.project_environments VALUES ('default', 'production', NULL);
 -- Data for Name: project_stats; Type: TABLE DATA; Schema: public; Owner: root
 --
 
-INSERT INTO public.project_stats VALUES ('default', 0, 6, 0, 2, 0, 0, 0, 0);
+INSERT INTO public.project_stats VALUES ('default', 0, 9, 0, 3, 0, 0, 0, 0);
 
 
 --
 -- Data for Name: projects; Type: TABLE DATA; Schema: public; Owner: root
 --
 
-INSERT INTO public.projects VALUES ('default', 'Default', 'Default project', '2024-06-06 17:55:19.829165', 100, '2024-06-17 17:45:17.405+12');
+INSERT INTO public.projects VALUES ('default', 'Default', 'Default project', '2024-06-06 17:55:19.829165', 100, '2024-06-17 18:54:18.867+12');
 
 
 --
@@ -2984,7 +2987,7 @@ INSERT INTO public.tag_types VALUES ('simple', 'Used to simplify filtering of fe
 -- Data for Name: unleash_session; Type: TABLE DATA; Schema: public; Owner: root
 --
 
-INSERT INTO public.unleash_session VALUES ('NVXzrSIuJOAaDHir0yb_wEhgmUXuZDHd', '{"cookie":{"originalMaxAge":172800000,"expires":"2024-06-19T06:38:48.703Z","secure":false,"httpOnly":true,"path":"/","sameSite":"lax"},"user":{"isAPI":false,"accountType":"User","id":1,"username":"admin","imageUrl":"https://gravatar.com/avatar/8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918?s=42&d=retro&r=g","seenAt":"2024-06-13T10:26:18.901Z","loginAttempts":0,"createdAt":"2024-06-06T05:55:22.524Z","scimId":null}}', '2024-06-17 18:38:48.706648+12', '2024-06-19 18:43:47.233+12');
+INSERT INTO public.unleash_session VALUES ('NVXzrSIuJOAaDHir0yb_wEhgmUXuZDHd', '{"cookie":{"originalMaxAge":172800000,"expires":"2024-06-19T06:38:48.703Z","secure":false,"httpOnly":true,"path":"/","sameSite":"lax"},"user":{"isAPI":false,"accountType":"User","id":1,"username":"admin","imageUrl":"https://gravatar.com/avatar/8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918?s=42&d=retro&r=g","seenAt":"2024-06-13T10:26:18.901Z","loginAttempts":0,"createdAt":"2024-06-06T05:55:22.524Z","scimId":null}}', '2024-06-17 18:38:48.706648+12', '2024-06-19 18:54:28.526+12');
 
 
 --
