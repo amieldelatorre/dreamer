@@ -7,11 +7,14 @@ using Dreamer.Domain.DTOs;
 using Dreamer.Domain.Services;
 using Dreamer.Domain.Validators;
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Json;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,6 +52,26 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(x =>
+{
+    x.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+    {
+        // TODO: Set these values up properly
+        ValidIssuer = "DreamerApiValidIssuerEnvVariable",
+        ValidAudience = "DreamerApiValidAudienceEnvVariable",
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("DreamerApiIssuerSigningKey")),
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true
+    };
+});
+builder.Services.AddAuthorization();
 
 // Register db repositories
 Log.Logger.Information("Registering database repositories");
@@ -61,6 +84,7 @@ builder.Services.AddDbContext<DreamerDbContext>(
     options => options.UseNpgsql(connectionString)
 );
 builder.Services.AddScoped<IUserRepository, PgsqlUserRepository>();
+builder.Services.AddScoped<IJwtRepository, PgsqlJwtRepository>();
 
 
 // Register database cache repository
@@ -69,6 +93,7 @@ var redisDatabaseCache = RedisClient.GetClient();
 builder.Services.AddSingleton(redisDatabaseCache);
 builder.Services.AddScoped<IDatabaseCacheRepository, RedisDatabaseCacheRepository>();
 builder.Services.AddScoped<IUserCache, UserCache>();
+builder.Services.AddScoped<IJwtCache,  JwtCache>();
 
 
 // Register feature toggle service
@@ -116,6 +141,7 @@ app.ConfigureExceptionMiddleware();
 
 app.UseSerilogRequestLogging();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

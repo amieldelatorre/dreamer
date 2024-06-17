@@ -16,5 +16,9 @@ namespace Dreamer.Cache
         private const string UserCachePrefix = "User";
         public static string UserIdCacheKey(Guid userId) => $"{UserCachePrefix}:Id:{userId}";
         public static string UserEmailCacheKey(string email) => $"{UserCachePrefix}:Email:{email}";
+
+
+        public const string JwtCachePrefix = "Jwt";
+        public static string JwtIdCacheKey(Guid jwtId) => $"{JwtCachePrefix}:Id:{jwtId}";
     }
 }

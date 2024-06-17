@@ -21,6 +21,9 @@ public class JwtService(IUserCache userCache, Serilog.ILogger logger) : IJwtServ
         {
             return GetInvalidCredentialsResult(result);
         } 
+
+        
+        // TODO: Create new jwt access token
         throw new NotImplementedException();
     }
 
