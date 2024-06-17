@@ -9,7 +9,7 @@ namespace Dreamer.Api.Utils
         public bool Configure()
         {
             Log.Logger.Information("Starting configuration of database");
-            return IsAvailable() && CreateInitialDatabase() && Migrate();
+            return IsAvailable() && Migrate();
         }
 
         private bool IsAvailable()
@@ -32,20 +32,6 @@ namespace Dreamer.Api.Utils
                 Log.Logger.Error("Unable to connect to database, exiting");
                 return false;
             }
-        }
-
-        private bool CreateInitialDatabase()
-        {
-            Log.Logger.Debug("Checking if the database tables have been created");
-            var optionBuilder = new DbContextOptionsBuilder<DreamerDbContext>();
-            optionBuilder.UseNpgsql(connectionString);
-            var context = new DreamerDbContext(optionBuilder.Options);
-
-            bool databaseCreated = context.Database.EnsureCreated();
-            if (databaseCreated)
-                Log.Logger.Information("Initial database tables created");
-            context.Database.CloseConnection();
-            return true;
         }
 
         private bool Migrate()

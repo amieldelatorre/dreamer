@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
 namespace Dreamer.DataAccess.Models
@@ -30,5 +28,7 @@ namespace Dreamer.DataAccess.Models
         [Required]
         [Column(TypeName = "timestamp with time zone")]
         public required DateTime DateModified { get; set; }
+
+        public ICollection<Jwt> Jwts { get; set; }
     }
 }
