@@ -1,12 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Dreamer.DataAccess.Models;
 public class Jwt
 {
     [Key]
     [Column(TypeName = "uuid")]
-    public Guid Id { get; set; }
+    public required Guid Id { get; set; }
 
     [Required]
     [Column(TypeName = "timestamp with time zone")]
@@ -30,6 +31,8 @@ public class Jwt
 
     //Foreign key for User
     [ForeignKey("UserId")]
-    public Guid UserId { get; set; }
+    public required Guid UserId { get; set; }
+
+    [JsonIgnore]
     public User User { get; set; }
 }

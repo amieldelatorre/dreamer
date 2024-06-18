@@ -1,0 +1,19 @@
+{
+  "UserLoginCredentials": {
+    "Email": "",
+    "Password": ""
+  },
+  "ExpectedResult": {
+    "RequestResultStatus": "UserError",
+    "Errors": {
+      "Email": [
+        "'Email' must not be empty.",
+        "'Email' is not a valid email address."
+      ],
+      "Password": [
+        "'Password' must not be empty."
+      ]
+    },
+    "Item": null
+  }
+}

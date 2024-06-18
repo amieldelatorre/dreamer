@@ -61,7 +61,7 @@ builder.Services.AddAuthentication(x =>
 {
     x.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
     {
-        // TODO: Set these values up properly
+        // TODO: Set these token validation parameters values up properly
         ValidIssuer = "DreamerApiValidIssuerEnvVariable",
         ValidAudience = "DreamerApiValidAudienceEnvVariable",
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("DreamerApiIssuerSigningKey")),

@@ -22,22 +22,22 @@ SET row_security = off;
 
 CREATE FUNCTION public.assign_unleash_permission_to_role(permission_name text, role_name text) RETURNS void
     LANGUAGE plpgsql
-    AS $$
-declare
-    var_role_id int;
-    var_permission text;
-BEGIN
-    var_role_id := (SELECT r.id FROM roles r WHERE r.name = role_name);
-    var_permission := (SELECT p.permission FROM permissions p WHERE p.permission = permission_name);
-
-    IF NOT EXISTS (
-        SELECT 1
-        FROM role_permission AS rp
-        WHERE rp.role_id = var_role_id AND rp.permission = var_permission
-    ) THEN
-        INSERT INTO role_permission(role_id, permission) VALUES (var_role_id, var_permission);
-    END IF;
-END
+    AS $$
+declare
+    var_role_id int;
+    var_permission text;
+BEGIN
+    var_role_id := (SELECT r.id FROM roles r WHERE r.name = role_name);
+    var_permission := (SELECT p.permission FROM permissions p WHERE p.permission = permission_name);
+
+    IF NOT EXISTS (
+        SELECT 1
+        FROM role_permission AS rp
+        WHERE rp.role_id = var_role_id AND rp.permission = var_permission
+    ) THEN
+        INSERT INTO role_permission(role_id, permission) VALUES (var_role_id, var_permission);
+    END IF;
+END
 $$;
 
 
@@ -49,25 +49,25 @@ ALTER FUNCTION public.assign_unleash_permission_to_role(permission_name text, ro
 
 CREATE FUNCTION public.assign_unleash_permission_to_role_for_all_environments(permission_name text, role_name text) RETURNS void
     LANGUAGE plpgsql
-    AS $$
-declare
-    var_role_id int;
-    var_permission text;
-BEGIN
-    var_role_id := (SELECT id FROM roles r WHERE r.name = role_name);
-    var_permission := (SELECT p.permission FROM permissions p WHERE p.permission = permission_name);
-
-    INSERT INTO role_permission (role_id, permission, environment)
-        SELECT var_role_id, var_permission, e.name
-        FROM environments e
-        WHERE NOT EXISTS (
-            SELECT 1
-            FROM role_permission rp
-            WHERE rp.role_id = var_role_id
-            AND rp.permission = var_permission
-            AND rp.environment = e.name
-        );
-END;
+    AS $$
+declare
+    var_role_id int;
+    var_permission text;
+BEGIN
+    var_role_id := (SELECT id FROM roles r WHERE r.name = role_name);
+    var_permission := (SELECT p.permission FROM permissions p WHERE p.permission = permission_name);
+
+    INSERT INTO role_permission (role_id, permission, environment)
+        SELECT var_role_id, var_permission, e.name
+        FROM environments e
+        WHERE NOT EXISTS (
+            SELECT 1
+            FROM role_permission rp
+            WHERE rp.role_id = var_role_id
+            AND rp.permission = var_permission
+            AND rp.environment = e.name
+        );
+END;
 $$;
 
 
@@ -79,11 +79,11 @@ ALTER FUNCTION public.assign_unleash_permission_to_role_for_all_environments(per
 
 CREATE FUNCTION public.date_floor_round(base_date timestamp with time zone, round_interval interval) RETURNS timestamp with time zone
     LANGUAGE sql STABLE
-    AS $_$
-SELECT to_timestamp(
-    (EXTRACT(epoch FROM $1)::integer / EXTRACT(epoch FROM $2)::integer)
-    * EXTRACT(epoch FROM $2)::integer
-)
+    AS $_$
+SELECT to_timestamp(
+    (EXTRACT(epoch FROM $1)::integer / EXTRACT(epoch FROM $2)::integer)
+    * EXTRACT(epoch FROM $2)::integer
+)
 $_$;
 
 
@@ -95,14 +95,14 @@ ALTER FUNCTION public.date_floor_round(base_date timestamp with time zone, round
 
 CREATE FUNCTION public.unleash_update_stat_environment_changes_counter() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-        BEGIN
-            IF NEW.environment IS NOT NULL THEN
-                INSERT INTO stat_environment_updates(day, environment, updates) SELECT DATE_TRUNC('Day', NEW.created_at), NEW.environment, 1 ON CONFLICT (day, environment) DO UPDATE SET updates = stat_environment_updates.updates + 1;
-            END IF;
-
-            return null;
-        END;
+    AS $$
+        BEGIN
+            IF NEW.environment IS NOT NULL THEN
+                INSERT INTO stat_environment_updates(day, environment, updates) SELECT DATE_TRUNC('Day', NEW.created_at), NEW.environment, 1 ON CONFLICT (day, environment) DO UPDATE SET updates = stat_environment_updates.updates + 1;
+            END IF;
+
+            return null;
+        END;
     $$;
 
 
@@ -2101,7 +2101,7 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 -- Data for Name: api_tokens; Type: TABLE DATA; Schema: public; Owner: root
 --
 
-INSERT INTO public.api_tokens VALUES ('*:production.dc7968908207aee9c8bbb6866956060be73c7de60bdfc6e5f69b983c', 'prod-test', 'client', '2024-06-06 17:58:10.87946+12', NULL, '2024-06-17 18:54:25.771+12', 'production', NULL, 'prod-test', NULL);
+INSERT INTO public.api_tokens VALUES ('*:production.dc7968908207aee9c8bbb6866956060be73c7de60bdfc6e5f69b983c', 'prod-test', 'client', '2024-06-06 17:58:10.87946+12', NULL, '2024-06-18 21:28:05.614+12', 'production', NULL, 'prod-test', NULL);
 
 
 --
@@ -2156,7 +2156,7 @@ INSERT INTO public.api_tokens VALUES ('*:production.dc7968908207aee9c8bbb6866956
 -- Data for Name: client_applications; Type: TABLE DATA; Schema: public; Owner: root
 --
 
-INSERT INTO public.client_applications VALUES ('dreamer', '2024-06-06 17:58:52.36091+12', '2024-06-17 18:54:24.671+12', '2024-06-17 18:54:24.671+12', '["default","userWithId","gradualRolloutUserId","gradualRolloutRandom","applicationHostname","gradualRolloutSessionId","remoteAddress","flexibleRollout"]', NULL, NULL, NULL, NULL, true, '::ffff:172.24.0.2');
+INSERT INTO public.client_applications VALUES ('dreamer', '2024-06-06 17:58:52.36091+12', '2024-06-18 21:27:00.701+12', '2024-06-18 21:27:00.701+12', '["default","userWithId","gradualRolloutUserId","gradualRolloutRandom","applicationHostname","gradualRolloutSessionId","remoteAddress","flexibleRollout"]', NULL, NULL, NULL, NULL, true, '::ffff:172.24.0.6');
 
 
 --
@@ -2186,6 +2186,8 @@ INSERT INTO public.client_instances VALUES ('dreamer', '2918a0e55c90-generated-d
 INSERT INTO public.client_instances VALUES ('dreamer', '2918a0e55c90-generated-13279a8a-8c12-4092-91ae-80d0c90af7b0', '::ffff:172.24.0.2', '2024-06-17 18:51:13.829915+12', '2024-06-17 18:51:13.829915+12', 'unleash-client-dotnet:v4.1.9', 'production');
 INSERT INTO public.client_instances VALUES ('dreamer', '2918a0e55c90-generated-1253655c-66be-44d3-b02a-0c2faf6e5cab', '::ffff:172.24.0.2', '2024-06-17 18:52:18.827249+12', '2024-06-17 18:52:18.827249+12', 'unleash-client-dotnet:v4.1.9', 'production');
 INSERT INTO public.client_instances VALUES ('dreamer', '2918a0e55c90-generated-df461df9-49d9-4daa-8570-3bf3feaaf9d1', '::ffff:172.24.0.2', '2024-06-17 18:54:24.679489+12', '2024-06-17 18:54:24.679489+12', 'unleash-client-dotnet:v4.1.9', 'production');
+INSERT INTO public.client_instances VALUES ('dreamer', 'd2d9b9a67f02-generated-9f3675cb-3bf4-4ee8-95c6-53ab7f97767a', '::ffff:172.24.0.6', '2024-06-18 20:31:15.718817+12', '2024-06-18 20:31:15.718817+12', 'unleash-client-dotnet:v4.1.9', 'production');
+INSERT INTO public.client_instances VALUES ('dreamer', 'd2d9b9a67f02-generated-684b7776-c2d7-4ada-aa40-c3377af12d78', '::ffff:172.24.0.6', '2024-06-18 21:27:56.792+12', '2024-06-18 21:27:00.70589+12', 'unleash-client-dotnet:v4.1.9', 'production');
 
 
 --
@@ -2193,6 +2195,7 @@ INSERT INTO public.client_instances VALUES ('dreamer', '2918a0e55c90-generated-d
 --
 
 INSERT INTO public.client_metrics_env VALUES ('dreamer_JwtCreate', 'dreamer', 'production', '2024-06-17 18:00:00+12', 1, 2);
+INSERT INTO public.client_metrics_env VALUES ('dreamer_Login', 'dreamer', 'production', '2024-06-18 21:00:00+12', 1, 0);
 
 
 --
@@ -2265,6 +2268,13 @@ INSERT INTO public.events VALUES (13, '2024-06-13 22:27:15.849632+12', 'feature-
 INSERT INTO public.events VALUES (14, '2024-06-17 18:39:18.641364+12', 'feature-created', 'admin', '{"name":"dreamer_JwtCreate","description":null,"type":"kill-switch","project":"default","stale":false,"createdAt":"2024-06-17T06:39:18.624Z","lastSeenAt":null,"impressionData":false,"archivedAt":null,"archived":false}', '[]', 'default', NULL, 'dreamer_JwtCreate', NULL, true, 1, '::ffff:172.24.0.1');
 INSERT INTO public.events VALUES (15, '2024-06-17 18:41:15.216559+12', 'feature-strategy-add', 'admin', '{"id":"c227ccfe-2cbf-40f0-9808-a9d306f735e8","name":"flexibleRollout","title":null,"disabled":false,"constraints":[],"parameters":{"groupId":"dreamer_JwtCreate","rollout":"100","stickiness":"default"},"variants":[],"sortOrder":0,"segments":[]}', '[]', 'default', 'production', 'dreamer_JwtCreate', NULL, true, 1, '::ffff:172.24.0.1');
 INSERT INTO public.events VALUES (16, '2024-06-17 18:41:15.226481+12', 'feature-environment-enabled', 'admin', NULL, '[]', 'default', 'production', 'dreamer_JwtCreate', NULL, true, 1, '::ffff:172.24.0.1');
+INSERT INTO public.events VALUES (17, '2024-06-18 21:26:08.466268+12', 'feature-dependencies-removed', 'admin', NULL, '[]', 'default', NULL, 'dreamer_JwtCreate', NULL, true, 1, '::ffff:172.24.0.1');
+INSERT INTO public.events VALUES (18, '2024-06-18 21:26:08.466268+12', 'feature-archived', 'admin', NULL, '[]', 'default', NULL, 'dreamer_JwtCreate', NULL, true, 1, '::ffff:172.24.0.1');
+INSERT INTO public.events VALUES (19, '2024-06-18 21:26:27.020383+12', 'feature-created', 'admin', '{"name":"dreamer_Login","description":"Ability to login","type":"kill-switch","project":"default","stale":false,"createdAt":"2024-06-18T09:26:27.008Z","lastSeenAt":null,"impressionData":false,"archivedAt":null,"archived":false}', '[]', 'default', NULL, 'dreamer_Login', NULL, true, 1, '::ffff:172.24.0.1');
+INSERT INTO public.events VALUES (20, '2024-06-18 21:26:30.780777+12', 'feature-strategy-add', 'admin', '{"id":"2f0a57b5-c9f7-419a-80cb-d207b87f6d98","name":"flexibleRollout","title":null,"disabled":false,"constraints":[],"parameters":{"groupId":"dreamer_Login","rollout":"100","stickiness":"default"},"variants":[],"sortOrder":0,"segments":[]}', '[]', 'default', 'production', 'dreamer_Login', NULL, true, 1, '::ffff:172.24.0.1');
+INSERT INTO public.events VALUES (21, '2024-06-18 21:26:30.790504+12', 'feature-environment-enabled', 'admin', NULL, '[]', 'default', 'production', 'dreamer_Login', NULL, true, 1, '::ffff:172.24.0.1');
+INSERT INTO public.events VALUES (22, '2024-06-18 21:27:07.198433+12', 'feature-environment-disabled', 'admin', NULL, '[]', 'default', 'production', 'dreamer_Login', NULL, true, 1, '::ffff:172.24.0.1');
+INSERT INTO public.events VALUES (23, '2024-06-18 21:28:05.069287+12', 'feature-environment-enabled', 'admin', NULL, '[]', 'default', 'production', 'dreamer_Login', NULL, true, 1, '::ffff:172.24.0.1');
 
 
 --
@@ -2289,6 +2299,8 @@ INSERT INTO public.feature_environments VALUES ('production', 'dreamer_TestShoul
 INSERT INTO public.feature_environments VALUES ('development', 'dreamer_TestShouldAlwaysBeFalse', false, '[]', NULL);
 INSERT INTO public.feature_environments VALUES ('development', 'dreamer_JwtCreate', false, '[]', NULL);
 INSERT INTO public.feature_environments VALUES ('production', 'dreamer_JwtCreate', true, '[]', NULL);
+INSERT INTO public.feature_environments VALUES ('development', 'dreamer_Login', false, '[]', NULL);
+INSERT INTO public.feature_environments VALUES ('production', 'dreamer_Login', true, '[]', NULL);
 
 
 --
@@ -2303,6 +2315,7 @@ INSERT INTO public.feature_environments VALUES ('production', 'dreamer_JwtCreate
 
 INSERT INTO public.feature_strategies VALUES ('cdab2e9b-f0a1-48d4-bc90-8b1564f9e7b4', 'dreamer_UserCreate', 'default', 'production', 'flexibleRollout', '{"groupId": "dreamer_UserCreate", "rollout": "100", "stickiness": "default"}', '[]', 0, '2024-06-06 17:59:42.471355+12', NULL, false, '[]', NULL);
 INSERT INTO public.feature_strategies VALUES ('c227ccfe-2cbf-40f0-9808-a9d306f735e8', 'dreamer_JwtCreate', 'default', 'production', 'flexibleRollout', '{"groupId": "dreamer_JwtCreate", "rollout": "100", "stickiness": "default"}', '[]', 0, '2024-06-17 18:41:15.201784+12', NULL, false, '[]', NULL);
+INSERT INTO public.feature_strategies VALUES ('2f0a57b5-c9f7-419a-80cb-d207b87f6d98', 'dreamer_Login', 'default', 'production', 'flexibleRollout', '{"groupId": "dreamer_Login", "rollout": "100", "stickiness": "default"}', '[]', 0, '2024-06-18 21:26:30.771209+12', NULL, false, '[]', NULL);
 
 
 --
@@ -2334,7 +2347,8 @@ INSERT INTO public.feature_types VALUES ('permission', 'Permission', 'Permission
 
 INSERT INTO public.features VALUES ('2024-06-06 17:59:36.496372+12', 'dreamer_UserCreate', NULL, '[]', 'kill-switch', false, 'default', NULL, false, NULL, NULL, 1, false);
 INSERT INTO public.features VALUES ('2024-06-13 22:27:15.839726+12', 'dreamer_TestShouldAlwaysBeFalse', 'Test toggle that should always be false', '[]', 'kill-switch', false, 'default', NULL, false, NULL, NULL, 1, false);
-INSERT INTO public.features VALUES ('2024-06-17 18:39:18.624631+12', 'dreamer_JwtCreate', NULL, '[]', 'kill-switch', false, 'default', NULL, false, NULL, NULL, 1, false);
+INSERT INTO public.features VALUES ('2024-06-17 18:39:18.624631+12', 'dreamer_JwtCreate', NULL, '[]', 'kill-switch', false, 'default', NULL, false, '2024-06-18 21:26:08.475+12', NULL, 1, false);
+INSERT INTO public.features VALUES ('2024-06-18 21:26:27.008045+12', 'dreamer_Login', 'Ability to login', '[]', 'kill-switch', false, 'default', NULL, false, NULL, NULL, 1, false);
 
 
 --
@@ -2379,6 +2393,7 @@ INSERT INTO public.features VALUES ('2024-06-17 18:39:18.624631+12', 'dreamer_Jw
 
 INSERT INTO public.last_seen_at_metrics VALUES ('dreamer_UserCreate', 'production', '2024-06-15 12:22:36.328+12');
 INSERT INTO public.last_seen_at_metrics VALUES ('dreamer_JwtCreate', 'production', '2024-06-17 18:42:08.778+12');
+INSERT INTO public.last_seen_at_metrics VALUES ('dreamer_Login', 'production', '2024-06-18 21:28:05.629+12');
 
 
 --
@@ -2773,7 +2788,7 @@ INSERT INTO public.project_stats VALUES ('default', 0, 9, 0, 3, 0, 0, 0, 0);
 -- Data for Name: projects; Type: TABLE DATA; Schema: public; Owner: root
 --
 
-INSERT INTO public.projects VALUES ('default', 'Default', 'Default project', '2024-06-06 17:55:19.829165', 100, '2024-06-17 18:54:18.867+12');
+INSERT INTO public.projects VALUES ('default', 'Default', 'Default project', '2024-06-06 17:55:19.829165', 100, '2024-06-18 20:31:16.89+12');
 
 
 --
@@ -2951,6 +2966,7 @@ INSERT INTO public.settings VALUES ('login_history_retention', '{"hours": 336}')
 
 INSERT INTO public.stat_environment_updates VALUES ('2024-06-06', 'production', 5);
 INSERT INTO public.stat_environment_updates VALUES ('2024-06-17', 'production', 2);
+INSERT INTO public.stat_environment_updates VALUES ('2024-06-18', 'production', 4);
 
 
 --
@@ -2987,7 +3003,7 @@ INSERT INTO public.tag_types VALUES ('simple', 'Used to simplify filtering of fe
 -- Data for Name: unleash_session; Type: TABLE DATA; Schema: public; Owner: root
 --
 
-INSERT INTO public.unleash_session VALUES ('NVXzrSIuJOAaDHir0yb_wEhgmUXuZDHd', '{"cookie":{"originalMaxAge":172800000,"expires":"2024-06-19T06:38:48.703Z","secure":false,"httpOnly":true,"path":"/","sameSite":"lax"},"user":{"isAPI":false,"accountType":"User","id":1,"username":"admin","imageUrl":"https://gravatar.com/avatar/8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918?s=42&d=retro&r=g","seenAt":"2024-06-13T10:26:18.901Z","loginAttempts":0,"createdAt":"2024-06-06T05:55:22.524Z","scimId":null}}', '2024-06-17 18:38:48.706648+12', '2024-06-19 18:54:28.526+12');
+INSERT INTO public.unleash_session VALUES ('NVXzrSIuJOAaDHir0yb_wEhgmUXuZDHd', '{"cookie":{"originalMaxAge":172800000,"expires":"2024-06-19T06:38:48.703Z","secure":false,"httpOnly":true,"path":"/","sameSite":"lax"},"user":{"isAPI":false,"accountType":"User","id":1,"username":"admin","imageUrl":"https://gravatar.com/avatar/8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918?s=42&d=retro&r=g","seenAt":"2024-06-13T10:26:18.901Z","loginAttempts":0,"createdAt":"2024-06-06T05:55:22.524Z","scimId":null}}', '2024-06-17 18:38:48.706648+12', '2024-06-20 21:28:59.312+12');
 
 
 --
@@ -3090,7 +3106,7 @@ SELECT pg_catalog.setval('public.change_requests_id_seq', 1, false);
 -- Name: events_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
 --
 
-SELECT pg_catalog.setval('public.events_id_seq', 16, true);
+SELECT pg_catalog.setval('public.events_id_seq', 23, true);
 
 
 --

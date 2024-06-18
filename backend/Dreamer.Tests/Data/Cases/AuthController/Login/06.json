@@ -1,0 +1,15 @@
+{
+  "UserLoginCredentials": {
+    "Email": "stephen.hawking@example.invalid",
+    "Password": "password"
+  },
+  "ExpectedResult": {
+    "RequestResultStatus": "UserError",
+    "Errors": {
+      "Credentials": [
+        "Invalid Email and Password combination"
+      ]
+    },
+    "Item": null
+  }
+}

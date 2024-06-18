@@ -7,7 +7,7 @@ namespace Dreamer.DataAccess.Models
     {
         [Key]
         [Column(TypeName = "uuid")]
-        public Guid Id { get; set; }
+        public required Guid Id { get; set; }
         [Required]
         [Column(TypeName = "text")]
         public required string FirstName { get; set; }

@@ -6,5 +6,5 @@ public static class FeatureName
     public const string UserGet = "UserGet";
     public const string UserGetByEmail = "UserGetByEmail";
 
-    public const string JwtCreate = "JwtCreate";
+    public const string Login = "Login";
 }

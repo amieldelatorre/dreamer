@@ -1,6 +1,4 @@
-﻿using System.Net;
-using Dreamer.Shared.Constants;
-using Serilog.Core;
+﻿using Dreamer.Shared.Constants;
 
 namespace Dreamer.Domain.DTOs
 {

@@ -1,0 +1,15 @@
+{
+  "UserLoginCredentials": {
+    "Email": "isaac.newton@example.invalid",
+    "Password": "password"
+  },
+  "ExpectedResult": {
+    "RequestResultStatus": "Created",
+    "Errors": {},
+    "Item": {
+      "IsDisabled": false,
+      "UserId": "68d1e183-330c-4349-869a-64679341b21e",
+      "DateDisabled": null
+    }
+  }
+}

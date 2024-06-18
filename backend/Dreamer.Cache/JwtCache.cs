@@ -24,7 +24,7 @@ public class JwtCache(
         catch (Exception ex)
         {
             logger.Error("{featureName}: could not add jwt {jwtId} to cache. Exception: {error}",
-                FeatureName.JwtCreate, jwt.Id, ex.Message);
+                FeatureName.Login, jwt.Id, ex.Message);
         }
     }
 }
