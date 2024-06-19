@@ -16,9 +16,9 @@ public static class RedisClient
             Log.Logger.Debug("Getting environment variables for Redis");
             var errors = new List<string>();
 
-            var connectionString = Environment.GetEnvironmentVariable(RequiredEnvironmentVariableNames.RedisConnectionString);
+            var connectionString = Environment.GetEnvironmentVariable(EnvironmentVariableNames.RequiredRedisConnectionString);
             if (String.IsNullOrWhiteSpace(connectionString))
-                errors.Add(RequiredEnvironmentVariableNames.RedisConnectionString);
+                errors.Add(EnvironmentVariableNames.RequiredRedisConnectionString);
 
 
             if (errors.Count > 0)

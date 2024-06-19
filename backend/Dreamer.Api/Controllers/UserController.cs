@@ -5,6 +5,7 @@ using Dreamer.Domain.DTOs;
 using Dreamer.Domain.Validators;
 using Dreamer.Shared.Constants;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Dreamer.Api.Controllers
 {
@@ -41,11 +42,12 @@ namespace Dreamer.Api.Controllers
 
         [HttpGet("{userId:Guid}")]
         [Produces("application/json")]
+        [Authorize]
         [TypeFilter(typeof(FeatureToggleFilter), Arguments = [ FeatureName.UserGet])]
-        public async Task<Result<UserView>> GetUser(Guid userId)
+        public async Task<ActionResult<Result<UserView>>> GetUser(Guid userId)
         {
             Result<UserView> result = new Result<UserView>();
-            return result;
+            return Ok(result);
         }
     }
 }

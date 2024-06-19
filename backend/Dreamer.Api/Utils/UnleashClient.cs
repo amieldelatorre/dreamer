@@ -19,17 +19,17 @@ public static class UnleashClient
             Log.Logger.Debug("Getting environment variables for Unleash");
             var errors = new List<string>();
 
-            var apiUrl = Environment.GetEnvironmentVariable(RequiredEnvironmentVariableNames.UnleashApiUrl);
+            var apiUrl = Environment.GetEnvironmentVariable(EnvironmentVariableNames.RequiredUnleashApiUrl);
             if (String.IsNullOrWhiteSpace(apiUrl))
-                errors.Add(RequiredEnvironmentVariableNames.UnleashApiUrl);
+                errors.Add(EnvironmentVariableNames.RequiredUnleashApiUrl);
 
-            var apiKey = Environment.GetEnvironmentVariable(RequiredEnvironmentVariableNames.UnleashApiKey);
+            var apiKey = Environment.GetEnvironmentVariable(EnvironmentVariableNames.RequiredUnleashApiKey);
             if (String.IsNullOrWhiteSpace(apiKey))
-                errors.Add(RequiredEnvironmentVariableNames.UnleashApiKey);
+                errors.Add(EnvironmentVariableNames.RequiredUnleashApiKey);
 
-            var appName = Environment.GetEnvironmentVariable(RequiredEnvironmentVariableNames.UnleashAppName);
+            var appName = Environment.GetEnvironmentVariable(EnvironmentVariableNames.RequiredUnleashAppName);
             if (String.IsNullOrWhiteSpace(appName))
-                errors.Add(RequiredEnvironmentVariableNames.UnleashAppName);
+                errors.Add(EnvironmentVariableNames.RequiredUnleashAppName);
 
             if (errors.Count > 0)
             {

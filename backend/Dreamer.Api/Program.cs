@@ -52,22 +52,27 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddAuthentication(x =>
+
+// Add Authentication
+var jwtVariables = GetJwtVariables.GetVariables();
+builder.Services.AddSingleton(jwtVariables);
+builder.Services.AddAuthentication(options =>
 {
-    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(x =>
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
 {
-    x.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+    options.IncludeErrorDetails = false;
+    options.TokenValidationParameters = new TokenValidationParameters()
     {
         // TODO: Set these token validation parameters values up properly
-        ValidIssuer = "DreamerApiValidIssuerEnvVariable",
-        ValidAudience = "DreamerApiValidAudienceEnvVariable",
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("DreamerApiIssuerSigningKey")),
+        ValidIssuer = jwtVariables.ValidIssuer,
+        ValidAudience = jwtVariables.ValidAudience,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtVariables.SigningKey)),
         ValidateIssuer = true,
         ValidateAudience = true,
-        ValidateLifetime = true,
+        ValidateLifetime = false,
         ValidateIssuerSigningKey = true
     };
 });

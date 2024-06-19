@@ -16,6 +16,12 @@ namespace Tests.ControllerTests;
 
 public class AuthControllerTests
 {
+    private readonly JwtEnvironmentVariables _jwtEnvironmentVariables = new ()
+    {
+        ValidIssuer = "dreamer",
+        ValidAudience = "dreamer",
+        SigningKey = "DreamerApiIssuerSigningKeyThatShouldBeLongerThan256Bits"
+    };
     private readonly TestDreamerPostgresContainer _postgresContainer;
     private readonly TestDreamerRedisContainer _redisContainer;
     private readonly ILogger _logger;
@@ -54,7 +60,7 @@ public class AuthControllerTests
 
         var userLoginCredentialsValidator = new UserLoginCredentialsDtoValidator();
 
-        _jwtService = new JwtService(_jwtCache, _userCache, _logger);
+        _jwtService = new JwtService(_jwtCache, _userCache, _jwtEnvironmentVariables, _logger);
 
         _authController = new AuthController(userLoginCredentialsValidator, _jwtService, _logger);
     }

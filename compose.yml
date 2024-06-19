@@ -155,6 +155,9 @@ services:
       UNLEASH_API_KEY: ${UNLEASH_API_KEY:-*:production.dc7968908207aee9c8bbb6866956060be73c7de60bdfc6e5f69b983c}
       UNLEASH_APP_NAME: ${UNLEASH_APP_NAME:-dreamer}
       LOG_LEVEL: Debug
+      JWT_VALID_ISSUER: dreamer
+      JWT_VALID_AUDIENCE: dreamer
+      JWT_SIGNING_KEY: DreamerApiIssuerSigningKeyThatShouldBeLongerThan256Bits
     develop:
       watch:
         - path: ./backend

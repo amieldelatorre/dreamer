@@ -18,25 +18,25 @@ public static class PostgresClient
             Log.Logger.Debug("Getting environment variables for PostgreSQL");
             var errors = new List<string>();
 
-            var host = Environment.GetEnvironmentVariable(RequiredEnvironmentVariableNames.PostgresHost);
+            var host = Environment.GetEnvironmentVariable(EnvironmentVariableNames.RequiredPostgresHost);
             if (String.IsNullOrWhiteSpace(host))
-                errors.Add(RequiredEnvironmentVariableNames.PostgresHost);
+                errors.Add(EnvironmentVariableNames.RequiredPostgresHost);
 
-            var port = Environment.GetEnvironmentVariable(RequiredEnvironmentVariableNames.PostgresPort);
+            var port = Environment.GetEnvironmentVariable(EnvironmentVariableNames.RequiredPostgresPort);
             if (String.IsNullOrWhiteSpace(port))
-                errors.Add(RequiredEnvironmentVariableNames.PostgresPort);
+                errors.Add(EnvironmentVariableNames.RequiredPostgresPort);
 
-            var username = Environment.GetEnvironmentVariable(RequiredEnvironmentVariableNames.PostgresUsername);
+            var username = Environment.GetEnvironmentVariable(EnvironmentVariableNames.RequiredPostgresUsername);
             if (String.IsNullOrWhiteSpace(username))
-                errors.Add(RequiredEnvironmentVariableNames.PostgresUsername);
+                errors.Add(EnvironmentVariableNames.RequiredPostgresUsername);
 
-            var password = Environment.GetEnvironmentVariable(RequiredEnvironmentVariableNames.PostgresPassword);
+            var password = Environment.GetEnvironmentVariable(EnvironmentVariableNames.RequiredPostgresPassword);
             if (String.IsNullOrWhiteSpace(password))
-                errors.Add(RequiredEnvironmentVariableNames.PostgresPassword);
+                errors.Add(EnvironmentVariableNames.RequiredPostgresPassword);
 
-            var database = Environment.GetEnvironmentVariable(RequiredEnvironmentVariableNames.PostgresDatabase);
+            var database = Environment.GetEnvironmentVariable(EnvironmentVariableNames.RequiredPostgresDatabase);
             if (String.IsNullOrWhiteSpace(database))
-                errors.Add(RequiredEnvironmentVariableNames.PostgresDatabase);
+                errors.Add(EnvironmentVariableNames.RequiredPostgresDatabase);
 
             if (errors.Count > 0)
             {

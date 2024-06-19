@@ -12,6 +12,7 @@ namespace Dreamer.Domain.Services;
 public class JwtService(
     IJwtCache jwtCache,
     IUserCache userCache, 
+    JwtEnvironmentVariables jwtEnvironmentVariables,
     Serilog.ILogger logger) : IJwtService
 {
     private const int TokenValidityLengthDays = 7;
@@ -65,7 +66,7 @@ public class JwtService(
         return result;
     }
 
-    private static string CreateJwtAccessToken(Jwt jwt)
+    private string CreateJwtAccessToken(Jwt jwt)
     {
         var claims = new Dictionary<string, object>()
         {
@@ -74,13 +75,13 @@ public class JwtService(
         };
 
         // TODO: Set these token validation parameters values up properly
-        var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("DreamerApiIssuerSigningKeyThatShouldBeLongerThan256Bits"));
+        var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtEnvironmentVariables.SigningKey));
         var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256Signature);
 
         var descriptor = new SecurityTokenDescriptor
         {
-            Issuer = "MyIssuer",
-            Audience = "MyAudience",
+            Issuer = jwtEnvironmentVariables.ValidIssuer,
+            Audience = jwtEnvironmentVariables.ValidAudience,
             Claims = claims,
             IssuedAt = jwt.DateCreated,
             NotBefore = jwt.DateCreated,
