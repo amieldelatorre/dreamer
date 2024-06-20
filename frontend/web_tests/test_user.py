@@ -3,6 +3,28 @@ from selenium.common import NoSuchElementException
 from selenium.webdriver.common.by import By
 
 
+def user_signup_enter_input_and_submit(browser, first_name: str, last_name: str, email: str, password: str):
+    first_name_box = browser.find_element(By.ID, value="firstName")
+    first_name_box.send_keys(first_name)
+
+    last_name_box = browser.find_element(By.ID, value="lastName")
+    last_name_box.send_keys(last_name)
+
+    email_box = browser.find_element(By.ID, value="email")
+    email_box.send_keys(email)
+
+    password_box = browser.find_element(By.ID, value="password")
+    password_box.send_keys(password)
+
+    password_confirm_box = browser.find_element(By.ID, value="confirmPassword")
+    password_confirm_box.send_keys(password)
+
+    submit_button = browser.find_element(By.ID, value="signup-submit")
+    submit_button.click()
+
+    time.sleep(2)
+
+
 def test_unsuccessful_signup_email_exists(chrome_browser):
     """  
     Test an unsuccessful signup where the email exists
@@ -14,25 +36,14 @@ def test_unsuccessful_signup_email_exists(chrome_browser):
     password = "password"
 
     chrome_browser.get(url)
-    first_name_box = chrome_browser.find_element(By.ID, value="firstName")
-    first_name_box.send_keys(first_name)
-
-    last_name_box = chrome_browser.find_element(By.ID, value="lastName")
-    last_name_box.send_keys(last_name)
-
-    email_box = chrome_browser.find_element(By.ID, value="email")
-    email_box.send_keys(email)
-
-    password_box = chrome_browser.find_element(By.ID, value="password")
-    password_box.send_keys(password)
-
-    password_confirm_box = chrome_browser.find_element(By.ID, value="confirmPassword")
-    password_confirm_box.send_keys(password)
-
-    submit_button = chrome_browser.find_element(By.ID, value="signup-submit")
-    submit_button.click()
-
-    time.sleep(2)
+    user_signup_enter_input_and_submit(
+        browser=chrome_browser,
+        first_name=first_name,
+        last_name=last_name,
+        email=email,
+        password=password
+    )
+    
 
     try:
         modal = chrome_browser.find_element(By.ID, value="default-modal")
@@ -68,25 +79,13 @@ def test_successful_signup(chrome_browser):
     password = "password"
 
     chrome_browser.get(url)
-    first_name_box = chrome_browser.find_element(By.ID, value="firstName")
-    first_name_box.send_keys(first_name)
-
-    last_name_box = chrome_browser.find_element(By.ID, value="lastName")
-    last_name_box.send_keys(last_name)
-
-    email_box = chrome_browser.find_element(By.ID, value="email")
-    email_box.send_keys(email)
-
-    password_box = chrome_browser.find_element(By.ID, value="password")
-    password_box.send_keys(password)
-
-    password_confirm_box = chrome_browser.find_element(By.ID, value="confirmPassword")
-    password_confirm_box.send_keys(password)
-
-    submit_button = chrome_browser.find_element(By.ID, value="signup-submit")
-    submit_button.click()
-
-    time.sleep(2)
+    user_signup_enter_input_and_submit(
+        browser=chrome_browser,
+        first_name=first_name,
+        last_name=last_name,
+        email=email,
+        password=password
+    )
 
     try:
         modal = chrome_browser.find_element(By.ID, value="default-modal")
