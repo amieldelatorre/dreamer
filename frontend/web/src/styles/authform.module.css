@@ -12,7 +12,6 @@
   flex-direction: column;
   justify-content: space-evenly;
   min-width: 350px;
-  min-height: 500px;
   padding: 10px;
   border-radius: 8px;
 }
@@ -52,4 +51,12 @@
 
 .minHeight40 {
   min-height: 40px;
+}
+
+.minHeight350 {
+  min-height: 350px;
+}
+
+.minHeight500 {
+  min-height: 500px;
 }

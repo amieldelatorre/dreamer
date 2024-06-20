@@ -5,7 +5,7 @@ import textStyles from '../styles/text.module.css';
 import modalStyles from '../styles/modal.module.css';
 import { PrimaryTitle, TertiaryTitle } from '../components/text';
 import { NestedMessage } from '../types/types';
-import {  Modal, ModalTypes, ModalProps, DefaultModalProps, LoadingModal, DefaultServerErrorModalProps } from '../components/modal';
+import { Modal, ModalTypes, ModalProps, DefaultModalProps, LoadingModal, HandleValidationModalErrors, HandleServerErrorModal, HandleNotOkErrorModal } from '../components/modal';
 import { LinkButton } from '../components/button';
 import { CreateUser, CreateUserData } from '../api/dreamer_user';
 
@@ -27,22 +27,11 @@ const handleFormSubmit = async (
         originalModalArgs: ModalProps
     ) => {
     event.preventDefault();
-    let defaultServerErrorModalArgs = DefaultServerErrorModalProps;
     
     let validationErrors = validateForm(formData.firstName, formData.lastName, formData.email, formData.password, formData.confirmPassword);
     
     if (validationErrors.length > 0) {
-        setModalArgs({
-            ...originalModalArgs,
-            type: ModalTypes.Error,
-            visible: true,
-            title: 'Error',
-            message: undefined,
-            messages: undefined,
-            extraClassNames: [],
-            nestedMessages: validationErrors
-        });
-        setModalVisible(true);
+        HandleValidationModalErrors(setModalArgs, originalModalArgs, setModalVisible, validationErrors);
         return;
     }
 
@@ -57,37 +46,15 @@ const handleFormSubmit = async (
         let requestResult = await CreateUser(createUserData);
 
         if (requestResult == null || requestResult.status === 500) {
-            setModalArgs({
-                ...defaultServerErrorModalArgs,
-                message: undefined,
-                messages: undefined,
-                extraClassNames: [],
-                closeFunction: originalModalArgs.closeFunction
-            });
-            setModalVisible(true);
+            HandleServerErrorModal(setModalArgs, originalModalArgs, setModalVisible);
             return;
         }
         else if (!requestResult.ok) {
-            let jsonResponse = await requestResult.json();
-    
-            const nestedMessages: NestedMessage[] = [];
-    
-            for (const [key, value] of Object.entries(jsonResponse.Errors)) {
-                nestedMessages.push({name: key, value: value as string[]});
-            }
-    
-            setModalArgs({
-                visible: true,
-                type: ModalTypes.Error,
-                title: 'Error(s)',
-                message: undefined,
-                messages: undefined,
-                nestedMessages: nestedMessages,
-                extraClassNames: [],
-                closeFunction: originalModalArgs.closeFunction
-            });
-            setModalVisible(true);
-        } else {
+            HandleNotOkErrorModal(requestResult, setModalArgs, originalModalArgs, setModalVisible);
+            return;
+        } 
+        
+        else {
             setModalArgs({
                 ...originalModalArgs,
                 type: ModalTypes.Success,
@@ -101,14 +68,7 @@ const handleFormSubmit = async (
             setModalVisible(true);
         }
     } catch {
-        setModalArgs({
-            ...defaultServerErrorModalArgs,
-            message: undefined,
-            messages: undefined,
-            extraClassNames: [],
-            closeFunction: originalModalArgs.closeFunction
-        });
-        setModalVisible(true);
+        HandleServerErrorModal(setModalArgs, originalModalArgs, setModalVisible);
         return;
     } finally {
         setIsLoading(false);
@@ -186,7 +146,7 @@ const SignUpPage = () => {
             />
 
             <div className={styles.pageBackground}>
-                <form className={`${styles.form} ${textStyles.textColorWhite}`} onSubmit={event => handleFormSubmit(event, setIsLoading, formData, setModalVisible, setModalArgs, modalArgs)}>
+                <form className={`${styles.form} ${styles.minHeight500} ${textStyles.textColorWhite}`} onSubmit={event => handleFormSubmit(event, setIsLoading, formData, setModalVisible, setModalArgs, modalArgs)}>
                     <Link to='/' className={`${textStyles.textDecorationNone} ${textStyles.textColorWhite}`}><PrimaryTitle title="Dreamer"/></Link>
                     <TertiaryTitle title="Sign Up" />
 

@@ -158,3 +158,67 @@ export const Modal = (props: PropsWithChildren<ModalProps>) => {
     </ModalBase>
   );
 }
+
+
+export const HandleValidationModalErrors = (
+  setModalArgs: React.Dispatch<React.SetStateAction<ModalProps>>,
+  originalModalArgs: ModalProps,
+  setModalVisible: React.Dispatch<React.SetStateAction<boolean>>,
+  validationErrors: NestedMessage[]
+) => {
+  setModalArgs({
+    ...originalModalArgs,
+    type: ModalTypes.Error,
+    visible: true,
+    title: 'Error',
+    message: undefined,
+    messages: undefined,
+    extraClassNames: [],
+    nestedMessages: validationErrors
+  });
+  setModalVisible(true);
+  return;
+}
+
+export const HandleServerErrorModal = (
+  setModalArgs: React.Dispatch<React.SetStateAction<ModalProps>>,
+  originalModalArgs: ModalProps,
+  setModalVisible: React.Dispatch<React.SetStateAction<boolean>>,
+) => {
+  setModalArgs({
+    ...DefaultServerErrorModalProps,
+    message: undefined,
+    messages: undefined,
+    extraClassNames: [],
+    closeFunction: originalModalArgs.closeFunction
+  });
+  setModalVisible(true);
+  return;
+}
+
+export const HandleNotOkErrorModal = async (
+  requestResult: Response,
+  setModalArgs: React.Dispatch<React.SetStateAction<ModalProps>>,
+  originalModalArgs: ModalProps,
+  setModalVisible: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+  let jsonResponse = await requestResult.json();
+    
+  const nestedMessages: NestedMessage[] = [];
+
+  for (const [key, value] of Object.entries(jsonResponse.Errors)) {
+      nestedMessages.push({name: key, value: value as string[]});
+  }
+
+  setModalArgs({
+      visible: true,
+      type: ModalTypes.Error,
+      title: 'Error(s)',
+      message: undefined,
+      messages: undefined,
+      nestedMessages: nestedMessages,
+      extraClassNames: [],
+      closeFunction: originalModalArgs.closeFunction
+  });
+  setModalVisible(true);
+}
