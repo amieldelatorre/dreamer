@@ -48,7 +48,7 @@ public class JwtService(
         };
 
         await jwtCache.Create(newJwt);
-        var accessToken = CreateJwtAccessToken(newJwt);
+        var accessToken = CreateJwtAccessToken(newJwt, user.Email);
 
         logger.Debug("{featureName}: processed with new Id '{jwtId}'.",
                 FeatureName.Login,
@@ -66,11 +66,11 @@ public class JwtService(
         return result;
     }
 
-    private string CreateJwtAccessToken(Jwt jwt)
+    private string CreateJwtAccessToken(Jwt jwt, string email)
     {
         var claims = new Dictionary<string, object>()
         {
-            [ClaimTypes.Email] = jwt.User.Email,
+            [ClaimTypes.Email] = email,
             ["jwtId"] = jwt.Id
         };
 
@@ -100,7 +100,7 @@ public class JwtService(
         return new JwtCreateView()
         {
             Id = jwt.Id,
-            UserId = jwt.User.Id,
+            UserId = jwt.UserId,
             AccessToken = accessToken,
             ExpiryDate = jwt.ExpiryDate,
             DateCreated = jwt.DateCreated,
